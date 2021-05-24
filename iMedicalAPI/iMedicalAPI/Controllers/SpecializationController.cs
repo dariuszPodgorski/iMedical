@@ -1,4 +1,5 @@
-﻿using iMedicalAPI.Models;
+﻿using AutoMapper;
+using iMedicalAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,10 +12,12 @@ namespace iMedicalAPI.Controllers
     public class SpecializationController : ControllerBase
     {
         private readonly iMedicalContext _dbContext;
+        private readonly IMapper _mapper;
 
-        public SpecializationController(iMedicalContext dbContext)
+        public SpecializationController(iMedicalContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -24,6 +27,7 @@ namespace iMedicalAPI.Controllers
                 .Specjalizacjas
                 .ToList();
 
+           
             return Ok(specializations);
         }
 
