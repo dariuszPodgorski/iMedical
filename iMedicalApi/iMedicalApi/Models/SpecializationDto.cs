@@ -7,5 +7,7 @@ namespace iMedicalApi.Models
 {
     public class SpecializationDto
     {
+        public int IdSpecialization { get; set; }
+        public string Name { get; set; }
     }
 }

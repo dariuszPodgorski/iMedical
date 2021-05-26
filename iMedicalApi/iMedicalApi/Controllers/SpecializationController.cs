@@ -5,46 +5,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using iMedicalApi.Services;
+
 namespace iMedicalApi.Controllers
 {
     [Route("api/specialization")]
     public class SpecializationController : ControllerBase
     {
-        private readonly iMedical_angContext _dbContext;
-        private readonly IMapper _mapper; 
+        private readonly ISpecializationService _specializationService;
 
-        public SpecializationController(iMedical_angContext dbContext, IMapper mapper)
+        public SpecializationController(ISpecializationService specializationService)
         {
-            _dbContext = dbContext;
-            _mapper = mapper; 
+            _specializationService = specializationService;
         }
 
-        [HttpGet]
-        public ActionResult<IEnumerable<Specialization>> GetAll()
-        {
-            var specializations = _dbContext
-                .Specializations
-                .ToList();
-
-
-            return Ok(specializations);
-        }
-
-
-        [HttpGet("{id}")]
-        public ActionResult<Specialization> Get([FromRoute] int id)
-        {
-            var specializations = _dbContext
-                .Specializations
-                .FirstOrDefault(p => p.IdSpecialization == id);
-
-            if (specializations is null)
-            {
-                return NotFound();
-            }
-
-            return Ok(specializations);
-        }
 
         [HttpPost]
         public ActionResult CreateSpecialization([FromBody] CreateSpecializationDto dto)
@@ -54,11 +28,34 @@ namespace iMedicalApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            var specialization = _mapper.Map<Specialization>(dto);
-            _dbContext.Specializations.Add(specialization);
-            _dbContext.SaveChanges();
+            var id = _specializationService.CreateSpecialization(dto);
 
-            return Created("/api/specialization/{specialization.id}", null);
+
+            return Created("/api/specialization/{id}", null);
         }
+
+
+        [HttpGet]
+        public ActionResult<IEnumerable<Specialization>> GetAll()
+        {
+            var specializations = _specializationService.GetAll();
+            return Ok(specializations);
+        }
+
+
+        [HttpGet("{id}")]
+        public ActionResult<SpecializationDto> Get([FromRoute] int id)
+        {
+            var specializations = _specializationService.GetById(id);
+
+            if (specializations is null)
+            {
+                return NotFound();
+            }
+
+            return Ok(specializations);
+        }
+
+        
     }
 }
