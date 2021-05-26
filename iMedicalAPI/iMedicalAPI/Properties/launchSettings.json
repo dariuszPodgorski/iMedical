@@ -4,8 +4,8 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:63716",
-      "sslPort": 44396
+      "applicationUrl": "http://localhost:53713",
+      "sslPort": 44380
     }
   },
   "profiles": {
@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "iMedicalAPI": {
+    "iMedicalApi": {
       "commandName": "Project",
       "dotnetRunMessages": "true",
       "launchBrowser": true,
