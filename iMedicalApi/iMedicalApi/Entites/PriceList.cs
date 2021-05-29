@@ -5,9 +5,9 @@ using System.Collections.Generic;
 
 namespace iMedicalApi.Models
 {
-    public partial class PriceList
+    public partial class PriceListDto
     {
-        public PriceList()
+        public PriceListDto()
         {
             MedicalExaminations = new HashSet<MedicalExamination>();
             Visits = new HashSet<Visit>();

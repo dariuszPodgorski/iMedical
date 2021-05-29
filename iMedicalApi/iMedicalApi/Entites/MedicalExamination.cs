@@ -18,7 +18,7 @@ namespace iMedicalApi.Models
 
         public virtual MedicalExaminationType IdMedicalExaminationTypeNavigation { get; set; }
         public virtual Patient IdPatientNavigation { get; set; }
-        public virtual PriceList IdPriceListNavigation { get; set; }
+        public virtual PriceListDto IdPriceListNavigation { get; set; }
         public virtual Referral IdReferralNavigation { get; set; }
     }
 }

@@ -34,7 +34,7 @@ namespace iMedicalApi.Models
         public virtual DbSet<Patient> Patients { get; set; }
         public virtual DbSet<PaymentDetail> PaymentDetails { get; set; }
         public virtual DbSet<Prescription> Prescriptions { get; set; }
-        public virtual DbSet<PriceList> PriceLists { get; set; }
+        public virtual DbSet<PriceListDto> PriceLists { get; set; }
         public virtual DbSet<Referral> Referrals { get; set; }
         public virtual DbSet<Specialization> Specializations { get; set; }
         public virtual DbSet<Tenure> Tenures { get; set; }
@@ -728,7 +728,7 @@ namespace iMedicalApi.Models
                     .HasMaxLength(15);
             });
 
-            modelBuilder.Entity<PriceList>(entity =>
+            modelBuilder.Entity<PriceListDto>(entity =>
             {
                 entity.HasKey(e => e.IdPriceList)
                     .HasName("PK_PRICE_LIST");

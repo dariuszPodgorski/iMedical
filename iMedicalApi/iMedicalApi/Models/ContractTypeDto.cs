@@ -5,11 +5,9 @@ using System.Threading.Tasks;
 
 namespace iMedicalApi.Models
 {
-    public class PriceListDto
+    public class ContractTypeDto
     {
-        public int IdPriceList { get; set; }
+        public int IdContractType { get; set; }
         public string Name { get; set; }
-        public int Price { get; set; }
-        public string Description { get; set; }
     }
 }

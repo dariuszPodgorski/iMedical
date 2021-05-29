@@ -26,7 +26,7 @@ namespace iMedicalApi.Models
         public virtual MedicalFacility IdMedicalFacilityNavigation { get; set; }
         public virtual Patient IdPatientNavigation { get; set; }
         public virtual Prescription IdPrescriptionNavigation { get; set; }
-        public virtual PriceList IdPriceListNavigation { get; set; }
+        public virtual PriceListDto IdPriceListNavigation { get; set; }
         public virtual VisitType IdVisitTypeNavigation { get; set; }
     }
 }

@@ -32,6 +32,9 @@ namespace iMedicalApi
             services.AddAutoMapper(this.GetType().Assembly);
             services.AddScoped<ISpecializationService, SpecializationService>();
             services.AddScoped<IVisitTypeService, VisitTypeService>();
+            services.AddScoped<IContractTypeService, ContractTypeService>();
+            services.AddScoped<ITenureTypeService, TenureTypeService>();
+            /*services.AddScoped<IPriceListService, PriceListService>(); */
 
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
