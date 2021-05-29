@@ -12,50 +12,62 @@ namespace iMedicalApi.Controllers
     [Route("api/specialization")]
     public class SpecializationController : ControllerBase
     {
-        private readonly ISpecializationService _specializationService;
-
+        private readonly ISpecializationService _specilizationService;
         public SpecializationController(ISpecializationService specializationService)
         {
-            _specializationService = specializationService;
+            _specilizationService = specializationService;
         }
-
-
-        [HttpPost]
-        public ActionResult CreateSpecialization([FromBody] CreateSpecializationDto dto)
-        {
-            if (ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var id = _specializationService.CreateSpecialization(dto);
-
-
-            return Created("/api/specialization/{id}", null);
-        }
-
 
         [HttpGet]
-        public ActionResult<IEnumerable<Specialization>> GetAll()
+        public ActionResult<IEnumerable<SpecializationDto>> GetAll()
         {
-            var specializations = _specializationService.GetAll();
-            return Ok(specializations);
+
+            var specializationsDtos = _specilizationService.GetAll();
+
+
+            return Ok(specializationsDtos);
         }
 
 
         [HttpGet("{id}")]
         public ActionResult<SpecializationDto> Get([FromRoute] int id)
         {
-            var specializations = _specializationService.GetById(id);
+            var specialization = _specilizationService.GetById(id);
 
-            if (specializations is null)
+            if (specialization is null)
             {
                 return NotFound();
             }
 
-            return Ok(specializations);
+            return Ok(specialization);
         }
 
-        
+        [HttpPost]
+        public ActionResult CreateSpecialization([FromBody] CreateSpecializationDto dto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var id = _specilizationService.Create(dto);
+
+
+            return Created($"/api/specialization/{id}", null);
+        }
+
+        [HttpDelete("{id}")]
+        public ActionResult Delete([FromRoute] int id)
+        {
+            var isDeleted = _specilizationService.Delete(id);
+
+            if(isDeleted )
+            {
+                return NoContent();
+            }
+
+            return NotFound();
+        }
+
     }
 }

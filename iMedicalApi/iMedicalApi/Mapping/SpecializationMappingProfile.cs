@@ -9,10 +9,16 @@ namespace iMedicalApi.Mapping
 {
     public class SpecializationMappingProfile : Profile
     {
-
         public SpecializationMappingProfile()
         {
+            CreateMap<Specialization, SpecializationDto>();
+                /*.ForMember(m => m.Name, c => c.MapFrom(s => s.Name)); */
+
+
             CreateMap<CreateSpecializationDto, Specialization>();
+               /* .ForMember(r => r.Name, c => c.MapFrom(dto => new Specialization() 
+                { Name = dto.Name })); */
         }
+
     }
 }

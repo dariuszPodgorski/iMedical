@@ -5,11 +5,9 @@ using System.Threading.Tasks;
 
 namespace iMedicalApi.Models
 {
-    public class SpecializationDto 
+    public class CreateVisitTypeDto
     {
-        public int IdSpecialization { get; set; }
-
+        public int IdVisitType { get; set; }
         public string Name { get; set; }
-
     }
 }

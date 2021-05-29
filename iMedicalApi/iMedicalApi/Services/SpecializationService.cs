@@ -9,15 +9,17 @@ namespace iMedicalApi.Services
 {
     public interface ISpecializationService
     {
-        int CreateSpecialization(CreateSpecializationDto dto);
-        IEnumerable<Specialization> GetAll();
+        int Create(CreateSpecializationDto dto);
+        IEnumerable<SpecializationDto> GetAll();
         SpecializationDto GetById(int id);
+        bool Delete(int id); 
     }
 
     public class SpecializationService : ISpecializationService
     {
         private readonly iMedical_angContext _dbContext;
         private readonly IMapper _mapper;
+
         public SpecializationService(iMedical_angContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
@@ -26,33 +28,54 @@ namespace iMedicalApi.Services
         public SpecializationDto GetById(int id)
         {
             var specialization = _dbContext
-                .Specializations
-                .FirstOrDefault(p => p.IdSpecialization == id);
+               .Specializations
+               .FirstOrDefault(r => r.IdSpecialization == id);
 
-            if (specialization is null) return null;
+            if (specialization is null)
+            {
+                return null;
+            }
 
             var result = _mapper.Map<SpecializationDto>(specialization);
             return result;
         }
-
-        public IEnumerable<Specialization> GetAll()
+        public IEnumerable<SpecializationDto> GetAll()
         {
             var specializations = _dbContext
-              .Specializations
-              .ToList();
+                .Specializations
+                .ToList();
 
-            var specializationsDto = _mapper.Map<List<Specialization>>(specializations);
-            return specializationsDto;
+            var specializationsDtos = _mapper.Map<List<SpecializationDto>>(specializations);
+
+            return specializationsDtos;
         }
 
-        public int CreateSpecialization(CreateSpecializationDto dto)
+        public int Create(CreateSpecializationDto dto)
         {
             var specialization = _mapper.Map<Specialization>(dto);
             _dbContext.Specializations.Add(specialization);
             _dbContext.SaveChanges();
 
             return specialization.IdSpecialization;
+        }
+
+        public bool Delete(int id)
+        {
+            var specialization = _dbContext
+             .Specializations
+             .FirstOrDefault(r => r.IdSpecialization == id);
+            
+            if (specialization is null) return false;
+
+            _dbContext.Specializations.Remove(specialization);
+            _dbContext.SaveChanges();
+            
+            return true;
+
 
         }
+        
+
     }
+
 }

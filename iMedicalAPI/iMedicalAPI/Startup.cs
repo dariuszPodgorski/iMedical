@@ -1,5 +1,5 @@
 using iMedicalApi.Models;
-using iMedicalApi.Services;
+using iMedicalApi.Services; 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -30,9 +30,10 @@ namespace iMedicalApi
             services.AddDbContext<iMedical_angContext>();
             services.AddControllers();
             services.AddAutoMapper(this.GetType().Assembly);
-            services.AddScoped<SpecializationService, SpecializationService>();
-        }
+            services.AddScoped<ISpecializationService, SpecializationService>();
+            services.AddScoped<IVisitTypeService, VisitTypeService>();
 
+        }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
