@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using iMedical.Models;
+using iMedical.Models.TenureTypeModels;
 using iMedicalApi.Models;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace iMedicalApi.Services
         bool Delete(int id);
         IEnumerable<TenureTypeDto> GetAll();
         TenureTypeDto GetById(int id);
+        bool Update(int id, UpdateTenureTypeDto dto);
     }
 
     public class TenureTypeService : ITenureTypeService
@@ -77,6 +79,24 @@ namespace iMedicalApi.Services
             return true;
 
 
+        }
+
+        public bool Update(int id, UpdateTenureTypeDto dto)
+        {
+            var tenureType = _dbContext
+            .TenureTypes
+            .FirstOrDefault(r => r.IdTenureType == id);
+
+            if (tenureType is null)
+            {
+                return false;
+            }
+
+            tenureType.Name = dto.Name;
+
+            _dbContext.SaveChanges();
+
+            return true;
         }
 
     }

@@ -1,4 +1,5 @@
-﻿using iMedicalApi.Models;
+﻿using iMedical.Models.TenureTypeModels;
+using iMedicalApi.Models;
 using iMedicalApi.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -67,5 +68,22 @@ namespace iMedicalApi.Controllers
             return NotFound();
         }
 
+        [HttpPut("{id}")]
+        public ActionResult Update([FromBody] UpdateTenureTypeDto dto, [FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var isUpdated = _tenureTypeService.Update(id, dto);
+
+            if (!isUpdated)
+            {
+                return NotFound();
+            }
+
+            return Ok();
+        }
     }
 }
