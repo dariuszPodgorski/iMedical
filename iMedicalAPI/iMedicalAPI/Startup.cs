@@ -34,6 +34,7 @@ namespace iMedicalApi
             services.AddScoped<IVisitTypeService, VisitTypeService>();
             services.AddScoped<IContractTypeService, ContractTypeService>();
             services.AddScoped<ITenureTypeService, TenureTypeService>();
+            services.AddScoped<IJobTypeService, JobTypeService>();
             /*services.AddScoped<IPriceListService, PriceListService>(); */
 
         }
