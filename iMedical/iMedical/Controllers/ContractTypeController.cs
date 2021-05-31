@@ -1,4 +1,5 @@
-﻿using iMedicalApi.Models;
+﻿using iMedical.Models.ContractModels;
+using iMedicalApi.Models;
 using iMedicalApi.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -65,6 +66,24 @@ namespace iMedicalApi.Controllers
             }
 
             return NotFound();
+        }
+
+        [HttpPut("{id}")]
+        public ActionResult Update([FromBody] UpdateContractTypeDto dto, [FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var isUpdated = _contractTypeService.Update(id, dto);
+
+            if (!isUpdated)
+            {
+                return NotFound();
+            }
+
+            return Ok();
         }
     }
 }

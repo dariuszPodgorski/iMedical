@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using iMedical.Models;
+using iMedical.Models.ContractModels;
 using iMedicalApi.Models;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace iMedicalApi.Services
         bool Delete(int id);
         IEnumerable<ContractTypeDto> GetAll();
         ContractTypeDto GetById(int id);
+        bool Update(int id, UpdateContractTypeDto dto);
     }
 
     public class ContractTypeService : IContractTypeService
@@ -76,6 +78,24 @@ namespace iMedicalApi.Services
             return true;
 
 
+        }
+
+        public bool Update(int id, UpdateContractTypeDto dto)
+        {
+            var contractType = _dbContext
+            .ContractTypes
+            .FirstOrDefault(r => r.IdContractType == id);
+
+            if (contractType is null)
+            {
+                return false;
+            }
+
+            contractType.Name = dto.Name;
+
+            _dbContext.SaveChanges();
+
+            return true;
         }
 
     }
