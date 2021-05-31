@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using iMedical.Models;
+using iMedical.Models.JobTypeModels;
 using iMedicalApi.Models;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace iMedicalApi.Services
         bool Delete(int id);
         IEnumerable<JobTypeDto> GetAll();
         JobTypeDto GetById(int id);
+        bool Update(int id, UpdateJobTypeDto dto);
     }
 
     public class JobTypeService : IJobTypeService
@@ -76,6 +78,23 @@ namespace iMedicalApi.Services
             return true;
 
 
+        }
+        public bool Update(int id, UpdateJobTypeDto dto)
+        {
+            var jobType = _dbContext
+            .JobTypes
+            .FirstOrDefault(r => r.IdJobType == id);
+
+            if (jobType is null)
+            {
+                return false;
+            }
+
+            jobType.Name = dto.Name;
+
+            _dbContext.SaveChanges();
+
+            return true;
         }
 
 
