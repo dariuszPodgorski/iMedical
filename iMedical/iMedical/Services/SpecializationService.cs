@@ -13,7 +13,8 @@ namespace iMedicalApi.Services
         int Create(CreateSpecializationDto dto);
         IEnumerable<SpecializationDto> GetAll();
         SpecializationDto GetById(int id);
-        bool Delete(int id); 
+        bool Delete(int id);
+        bool Update(int id, UpdateSpecializationDto dto);
     }
 
     public class SpecializationService : ISpecializationService
@@ -75,7 +76,24 @@ namespace iMedicalApi.Services
 
 
         }
-        
+
+        public bool Update(int id, UpdateSpecializationDto dto)
+        {
+            var specialization = _dbContext
+            .Specializations
+            .FirstOrDefault(r => r.IdSpecialization == id);
+
+            if(specialization is null)
+            {
+                return false;
+            }
+
+            specialization.Name = dto.Name;
+
+            _dbContext.SaveChanges();
+
+            return true;
+        }
 
     }
 

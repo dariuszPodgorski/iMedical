@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using iMedicalApi.Services;
+using iMedical.Models;
 
 namespace iMedicalApi.Controllers
 {
@@ -61,7 +62,7 @@ namespace iMedicalApi.Controllers
         {
             var isDeleted = _specilizationService.Delete(id);
 
-            if(isDeleted )
+            if (isDeleted)
             {
                 return NoContent();
             }
@@ -69,5 +70,22 @@ namespace iMedicalApi.Controllers
             return NotFound();
         }
 
+        [HttpPut("{id}")]
+        public ActionResult Update([FromBody]UpdateSpecializationDto dto, [FromRoute]int id)
+        {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var isUpdated = _specilizationService.Update(id, dto);
+
+            if(!isUpdated)
+            {
+                return NotFound();
+            }
+
+            return Ok();
+        }
     }
 }
