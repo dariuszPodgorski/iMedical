@@ -8,7 +8,15 @@ using System.Threading.Tasks;
 
 namespace iMedicalApi.Services
 {
-    public class PriceListService
+    public interface IPriceListService
+    {
+        int Create(CreatePriceListDto dto);
+        bool Delete(int id);
+        IEnumerable<PriceListDto> GetAll();
+        PriceListDto GetById(int id);
+    }
+
+    public class PriceListService : IPriceListService
     {
         private readonly iMedical_angContext _dbContext;
         private readonly IMapper _mapper;

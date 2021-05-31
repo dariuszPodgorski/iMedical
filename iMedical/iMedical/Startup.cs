@@ -36,6 +36,7 @@ namespace iMedical
             services.AddScoped<IContractTypeService, ContractTypeService>();
             services.AddScoped<ITenureTypeService, TenureTypeService>();
             services.AddScoped<IJobTypeService, JobTypeService>();
+            services.AddScoped<IPriceListService, PriceListService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
