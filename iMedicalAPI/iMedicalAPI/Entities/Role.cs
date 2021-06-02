@@ -9,12 +9,14 @@ namespace iMedicalAPI.Models
     {
         public Role()
         {
-            Logins = new HashSet<Login>();
+            Employees = new HashSet<Employee>();
+            Patients = new HashSet<Patient>();
         }
 
         public int IdRole { get; set; }
         public string Name { get; set; }
 
-        public virtual ICollection<Login> Logins { get; set; }
+        public virtual ICollection<Employee> Employees { get; set; }
+        public virtual ICollection<Patient> Patients { get; set; }
     }
 }

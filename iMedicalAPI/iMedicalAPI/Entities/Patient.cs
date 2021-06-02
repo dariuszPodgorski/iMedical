@@ -9,13 +9,13 @@ namespace iMedicalAPI.Models
     {
         public Patient()
         {
-            Logins = new HashSet<Login>();
             MedicalExaminations = new HashSet<MedicalExamination>();
             Referrals = new HashSet<Referral>();
             Visits = new HashSet<Visit>();
         }
 
         public int IdPatient { get; set; }
+        public int? IdRole { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }
@@ -37,8 +37,10 @@ namespace iMedicalAPI.Models
         public string BuildingNumberResidence { get; set; }
         public string HouseNumberResidence { get; set; }
         public string InsuranceNumber { get; set; }
+        public string Password { get; set; }
+        public string Login { get; set; }
 
-        public virtual ICollection<Login> Logins { get; set; }
+        public virtual Role IdRoleNavigation { get; set; }
         public virtual ICollection<MedicalExamination> MedicalExaminations { get; set; }
         public virtual ICollection<Referral> Referrals { get; set; }
         public virtual ICollection<Visit> Visits { get; set; }

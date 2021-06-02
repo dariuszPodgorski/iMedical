@@ -10,12 +10,12 @@ namespace iMedicalAPI.Models
         public Employee()
         {
             BillingTenures = new HashSet<BillingTenure>();
-            Logins = new HashSet<Login>();
             PaymentDetails = new HashSet<PaymentDetail>();
             Tenures = new HashSet<Tenure>();
         }
 
         public int IdEmployee { get; set; }
+        public int? IdRole { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }
@@ -30,9 +30,11 @@ namespace iMedicalAPI.Models
         public string HousingNumberResidence { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
+        public string Login { get; set; }
+        public string Password { get; set; }
 
+        public virtual Role IdRoleNavigation { get; set; }
         public virtual ICollection<BillingTenure> BillingTenures { get; set; }
-        public virtual ICollection<Login> Logins { get; set; }
         public virtual ICollection<PaymentDetail> PaymentDetails { get; set; }
         public virtual ICollection<Tenure> Tenures { get; set; }
     }
