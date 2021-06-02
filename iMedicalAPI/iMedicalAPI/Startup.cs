@@ -1,5 +1,9 @@
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using iMedicalApi.Services;
 using iMedicalAPI.Models;
+using iMedicalAPI.Models.RegisterUserModels;
+using iMedicalAPI.Models.Validators;
 using iMedicalAPI.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -29,9 +33,9 @@ namespace iMedicalAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            
             services.AddDbContext<iMedical_angContext>();
-            services.AddControllers();
+            services.AddControllers().AddFluentValidation();
             services.AddAutoMapper(this.GetType().Assembly);
             services.AddScoped<ISpecializationService, SpecializationService>();
             services.AddScoped<IVisitTypeService, VisitTypeService>();
@@ -42,6 +46,8 @@ namespace iMedicalAPI
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IPatientService, PatientService>();
             services.AddScoped<IPasswordHasher<Patient>, PasswordHasher<Patient>>();
+            services.AddScoped<IValidator<RegisterPatientDto>, RegisterUserDtoValidator>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

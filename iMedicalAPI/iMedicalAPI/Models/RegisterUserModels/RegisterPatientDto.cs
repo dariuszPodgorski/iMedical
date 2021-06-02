@@ -87,12 +87,11 @@ namespace iMedicalAPI.Models.RegisterUserModels
         [MaxLength(15)]
         public string InsuranceNumber { get; set; }
 
-        [Required]
-        [MaxLength(512)]
+     
         public string Password { get; set; }
         
-        [Required]
-        [MaxLength(50)]
+        public string ConfirmPassword { get; set; }
+  
         public string Login { get; set; }
 
     }
