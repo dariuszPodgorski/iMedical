@@ -15,8 +15,4 @@
     <PackageReference Include="NLog.Extensions.Logging" Version="1.7.2" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\RegisterUserModels\" />
-  </ItemGroup>
-
 </Project>

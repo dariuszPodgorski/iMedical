@@ -1,8 +1,10 @@
 using iMedicalApi.Services;
 using iMedicalAPI.Models;
+using iMedicalAPI.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -37,6 +39,9 @@ namespace iMedicalAPI
             services.AddScoped<ITenureTypeService, TenureTypeService>();
             services.AddScoped<IJobTypeService, JobTypeService>();
             services.AddScoped<IPriceListService, PriceListService>();
+            services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IPatientService, PatientService>();
+            services.AddScoped<IPasswordHasher<Patient>, PasswordHasher<Patient>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
