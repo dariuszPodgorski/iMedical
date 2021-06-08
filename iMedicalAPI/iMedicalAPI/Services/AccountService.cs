@@ -59,8 +59,16 @@ namespace iMedicalAPI.Services
             _context.Patients.Add(newPatient);
             _context.SaveChanges();
         }
+        /*
+        public string GenerateJwt(LoginDto dto)
+        {
+            var user = _context.Patients.FirstOrDefault(u => u.Login == dto.Login);
 
-        
-
+            if (user is null)
+            {
+                throw new BadRequestException("Nieporpawny login lub hasło");
+            }
+        }
+        */
     }
 }

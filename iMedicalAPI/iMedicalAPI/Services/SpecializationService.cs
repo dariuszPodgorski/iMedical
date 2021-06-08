@@ -6,6 +6,7 @@ using AutoMapper;
 using iMedical.Models;
 using iMedicalApi.Models;
 using iMedicalAPI.Models;
+using Microsoft.Extensions.Logging;
 
 namespace iMedicalApi.Services
 {
@@ -14,19 +15,21 @@ namespace iMedicalApi.Services
         int Create(CreateSpecializationDto dto);
         IEnumerable<SpecializationDto> GetAll();
         SpecializationDto GetById(int id);
-        bool Delete(int id);
-        bool Update(int id, UpdateSpecializationDto dto);
+        void Delete(int id);
+        void Update(int id, UpdateSpecializationDto dto);
     }
 
     public class SpecializationService : ISpecializationService
     {
         private readonly iMedical_angContext _dbContext;
         private readonly IMapper _mapper;
+        private readonly ILogger<SpecializationService> _logger;
 
-        public SpecializationService(iMedical_angContext dbContext, IMapper mapper)
+        public SpecializationService(iMedical_angContext dbContext, IMapper mapper, ILogger<SpecializationService> logger)
         {
             _dbContext = dbContext;
             _mapper = mapper;
+            _logger = logger;
         }
         public SpecializationDto GetById(int id)
         {
@@ -36,7 +39,7 @@ namespace iMedicalApi.Services
 
             if (specialization is null)
             {
-                return null;
+                throw new DllNotFoundException("Not found");
             }
 
             var result = _mapper.Map<SpecializationDto>(specialization);
@@ -62,18 +65,20 @@ namespace iMedicalApi.Services
             return specialization.IdSpecialization;
         }
 
-        public bool Delete(int id)
+       
+        public void Delete(int id)
         {
+         
             var specialization = _dbContext
              .Specializations
              .FirstOrDefault(r => r.IdSpecialization == id);
             
-            if (specialization is null) return false;
+            if (specialization is null) throw new DllNotFoundException("Not found");
 
             _dbContext.Specializations.Remove(specialization);
             _dbContext.SaveChanges();
             
-            return true;
+          
 
 
         }
