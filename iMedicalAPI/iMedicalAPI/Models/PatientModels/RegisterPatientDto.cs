@@ -55,7 +55,6 @@ namespace iMedicalAPI.Models.RegisterUserModels
         [MaxLength(11)]
         public string BuildingNumberRegistration { get; set; }
 
-        [Required]
         [MaxLength(11)]
         public string HousingNumberRegistration { get; set; }
 

@@ -18,19 +18,22 @@ namespace iMedicalAPI.Controllers
         {
             _accountService = accountService;
         }
-        [HttpPost("register")]
+        [HttpPost("registerPatient")]
        public ActionResult RegisterPatient([FromBody] RegisterPatientDto dto)
         {
             _accountService.RegisterPatient(dto);
             return Ok();
         }
-        /*
+
+       
+
         [HttpPost("login")]
         public ActionResult Login([FromBody]LoginDto dto)
         {
             string token = _accountService.GenerateJwt(dto);
+            return Ok(token);
 
         }
-        */
+        
     }
 }

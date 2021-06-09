@@ -19,13 +19,6 @@ namespace iMedicalAPI.Controllers
             _employeeService = employeeService;
         }
 
-        [HttpPost("register")]
-        public ActionResult RegisterEmployee([FromBody] RegisterEmployeeDto dto)
-        {
-            _employeeService.RegisterEmployee(dto);
-            return Ok();
-        }
-
         [HttpGet]
         public ActionResult<IEnumerable<EmployeeDto>> GetAll()
         {
@@ -47,6 +40,13 @@ namespace iMedicalAPI.Controllers
             }
 
             return Ok(employeeType);
+        }
+
+        [HttpPost("register")]
+        public ActionResult RegisterEmployee([FromBody] RegisterEmployeeDto dto)
+        {
+            _employeeService.RegisterEmployee(dto);
+            return Ok();
         }
     }
 }

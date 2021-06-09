@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using iMedicalAPI.Exceptions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,11 @@ namespace iMedicalAPI.Middleware
             try
             {
                 await next.Invoke(context);
+            }
+            catch(BadRequestException badRequestException)
+            {
+                context.Response.StatusCode = 400;
+                await context.Response.WriteAsync(badRequestException.Message);
             }
             catch(DllNotFoundException notFoundException)
             {

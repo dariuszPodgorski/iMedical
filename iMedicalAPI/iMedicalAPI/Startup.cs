@@ -36,8 +36,9 @@ namespace iMedicalAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            /* var authenticationSettings = new AuthenticationSettings();
+             var authenticationSettings = new AuthenticationSettings();
              Configuration.GetSection("Authentication").Bind(authenticationSettings);
+            services.AddSingleton(authenticationSettings);
              services.AddAuthentication(option =>
              {
                  option.DefaultAuthenticateScheme = "Bearer";
@@ -54,7 +55,7 @@ namespace iMedicalAPI
                      IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authenticationSettings.JwtKey)),
                  };
              });
-            */
+            
             services.AddScoped<ErrorHandlingMiddleware>();
             services.AddDbContext<iMedical_angContext>();
             services.AddControllers().AddFluentValidation();
@@ -71,6 +72,7 @@ namespace iMedicalAPI
             services.AddScoped<IPasswordHasher<Patient>, PasswordHasher<Patient>>();
             services.AddScoped<IPasswordHasher<Employee>, PasswordHasher<Employee>>();
             services.AddScoped<IValidator<RegisterPatientDto>, RegisterUserDtoValidator>();
+            services.AddSwaggerGen();
 
         }
 
@@ -85,6 +87,12 @@ namespace iMedicalAPI
             app.UseMiddleware<ErrorHandlingMiddleware>();
             app.UseAuthentication();
             app.UseHttpsRedirection();
+            app.UseAuthentication();
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "iMedical API");
+            });
 
             app.UseRouting();
 

@@ -7,11 +7,14 @@ using System.Threading.Tasks;
 using AutoMapper;
 using iMedicalApi.Services;
 using iMedical.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace iMedicalApi.Controllers
 {
     [Route("api/specialization")]
     [ApiController]
+    /*[Authorize(Roles = "Administracja,Admin")] */
+
     public class SpecializationController : ControllerBase
     {
         private readonly ISpecializationService _specilizationService;
@@ -21,9 +24,10 @@ namespace iMedicalApi.Controllers
         }
 
         [HttpGet]
+
         public ActionResult<IEnumerable<SpecializationDto>> GetAll()
         {
-
+            
             var specializationsDtos = _specilizationService.GetAll();
 
 
