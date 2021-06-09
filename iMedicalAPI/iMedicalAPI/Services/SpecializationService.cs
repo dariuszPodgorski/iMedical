@@ -38,9 +38,8 @@ namespace iMedicalApi.Services
                .FirstOrDefault(r => r.IdSpecialization == id);
 
             if (specialization is null)
-            {
+
                 throw new DllNotFoundException("Not found");
-            }
 
             var result = _mapper.Map<SpecializationDto>(specialization);
             return result;
@@ -73,7 +72,8 @@ namespace iMedicalApi.Services
              .Specializations
              .FirstOrDefault(r => r.IdSpecialization == id);
             
-            if (specialization is null) throw new DllNotFoundException("Not found");
+            if (specialization is null) 
+                throw new DllNotFoundException("Not found");
 
             _dbContext.Specializations.Remove(specialization);
             _dbContext.SaveChanges();
@@ -83,22 +83,20 @@ namespace iMedicalApi.Services
 
         }
 
-        public bool Update(int id, UpdateSpecializationDto dto)
+        public void Update(int id, UpdateSpecializationDto dto)
         {
             var specialization = _dbContext
             .Specializations
             .FirstOrDefault(r => r.IdSpecialization == id);
 
-            if(specialization is null)
-            {
-                return false;
-            }
+            if (specialization is null) 
+                throw new DllNotFoundException("Not found");
 
             specialization.Name = dto.Name;
 
             _dbContext.SaveChanges();
 
-            return true;
+    
         }
 
     }

@@ -11,6 +11,7 @@ using iMedical.Models;
 namespace iMedicalApi.Controllers
 {
     [Route("api/specialization")]
+    [ApiController]
     public class SpecializationController : ControllerBase
     {
         private readonly ISpecializationService _specilizationService;
@@ -35,10 +36,7 @@ namespace iMedicalApi.Controllers
         {
             var specialization = _specilizationService.GetById(id);
 
-            if (specialization is null)
-            {
-                return NotFound();
-            }
+            
 
             return Ok(specialization);
         }
@@ -46,10 +44,7 @@ namespace iMedicalApi.Controllers
         [HttpPost]
         public ActionResult CreateSpecialization([FromBody] CreateSpecializationDto dto)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+          
 
             var id = _specilizationService.Create(dto);
 
@@ -60,12 +55,9 @@ namespace iMedicalApi.Controllers
         [HttpDelete("{id}")]
         public ActionResult Delete([FromRoute] int id)
         {
-            var isDeleted = _specilizationService.Delete(id);
+            _specilizationService.Delete(id);
 
-            if (isDeleted)
-            {
-                return NoContent();
-            }
+         
 
             return NotFound();
         }
@@ -73,18 +65,10 @@ namespace iMedicalApi.Controllers
         [HttpPut("{id}")]
         public ActionResult Update([FromBody]UpdateSpecializationDto dto, [FromRoute]int id)
         {
-            if(!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            
+            _specilizationService.Update(id, dto);
 
-            var isUpdated = _specilizationService.Update(id, dto);
-
-            if(!isUpdated)
-            {
-                return NotFound();
-            }
-
+          
             return Ok();
         }
     }

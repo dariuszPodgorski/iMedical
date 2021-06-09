@@ -20,6 +20,11 @@ namespace iMedicalAPI.Middleware
             {
                 await next.Invoke(context);
             }
+            catch(DllNotFoundException notFoundException)
+            {
+                context.Response.StatusCode = 404;
+                await context.Response.WriteAsync(notFoundException.Message);
+            }
             catch(Exception e)
             {
                 _logger.LogError(e, e.Message);
