@@ -14,7 +14,7 @@ namespace iMedicalApi.Controllers
 {
     [Route("api/specialization")]
     [ApiController]
-    /* [Authorize(Roles = "Administracja,Admin")] */
+    [Authorize(Roles = "Administracja,Admin")] 
 
     public class SpecializationController : ControllerBase
     {

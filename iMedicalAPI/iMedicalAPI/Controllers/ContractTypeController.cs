@@ -1,6 +1,7 @@
 ﻿using iMedical.Models.ContractModels;
 using iMedicalApi.Models;
 using iMedicalApi.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,9 @@ using System.Threading.Tasks;
 namespace iMedicalApi.Controllers
 {
     [Route("api/contractType")]
+    [ApiController]
+    [Authorize(Roles = "Administracja,Admin")]
+
     public class ContractTypeController : ControllerBase
     {
         private readonly IContractTypeService _contractTypeService;
