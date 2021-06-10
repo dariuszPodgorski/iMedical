@@ -15,7 +15,7 @@ namespace iMedicalApi.Mapping
         {
             CreateMap<JobType, JobTypeDto>();
 
-            CreateMap<JobTypeDto, JobType>();
+            CreateMap<CreateJobTypeDto, JobType>();
         }
     }
 }

@@ -10,7 +10,7 @@ namespace iMedicalApi.Models
     {
         public int IdJobType { get; set; }
         [Required]
-        [MaxLength(64)]
+        [MaxLength(256)]
         public string Name { get; set; }
     }
 }
