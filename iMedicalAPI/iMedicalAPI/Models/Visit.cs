@@ -9,7 +9,7 @@ namespace iMedicalAPI.Models
     {
         public int IdVisit { get; set; }
         public int? IdMedicalFacility { get; set; }
-        public int? IdPatient { get; set; }
+        public int? IdUser { get; set; }
         public int? IdVisitType { get; set; }
         public int? IdPriceList { get; set; }
         public int? IdPrescription { get; set; }
@@ -24,9 +24,9 @@ namespace iMedicalAPI.Models
 
         public virtual Doctor IdDoctorNavigation { get; set; }
         public virtual MedicalFacility IdMedicalFacilityNavigation { get; set; }
-        public virtual Patient IdPatientNavigation { get; set; }
         public virtual Prescription IdPrescriptionNavigation { get; set; }
         public virtual PriceList IdPriceListNavigation { get; set; }
+        public virtual UserAccount IdUserNavigation { get; set; }
         public virtual VisitType IdVisitTypeNavigation { get; set; }
     }
 }

@@ -28,8 +28,8 @@ namespace iMedicalAPI.Services
         public PatientDto GetById(int id)
         {
             var patient = _dbContext
-               .Patients
-               .FirstOrDefault(r => r.IdPatient == id);
+               .UserAccounts
+               .FirstOrDefault(r => r.IdUser == id);
 
             if (patient is null)
             {
@@ -43,7 +43,7 @@ namespace iMedicalAPI.Services
         public IEnumerable<PatientDto> GetAll()
         {
             var patient = _dbContext
-                .Patients
+                .UserAccounts
                 .ToList();
 
             var patientsDtos = _mapper.Map<List<PatientDto>>(patient);

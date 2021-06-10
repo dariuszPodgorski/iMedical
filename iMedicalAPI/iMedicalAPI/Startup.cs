@@ -36,26 +36,26 @@ namespace iMedicalAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-             var authenticationSettings = new AuthenticationSettings();
-             Configuration.GetSection("Authentication").Bind(authenticationSettings);
+            var authenticationSettings = new AuthenticationSettings();
+            Configuration.GetSection("Authentication").Bind(authenticationSettings);
             services.AddSingleton(authenticationSettings);
-             services.AddAuthentication(option =>
-             {
-                 option.DefaultAuthenticateScheme = "Bearer";
-                 option.DefaultScheme = "Bearer";
-                 option.DefaultChallengeScheme = "Bearer";
-             }).AddJwtBearer(cfg =>
-             {
-                 cfg.RequireHttpsMetadata = false;
-                 cfg.SaveToken = true;
-                 cfg.TokenValidationParameters = new TokenValidationParameters
-                 {
-                     ValidIssuer = authenticationSettings.JwtIssuer,
-                     ValidAudience = authenticationSettings.JwtIssuer,
-                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authenticationSettings.JwtKey)),
-                 };
-             });
-            
+            services.AddAuthentication(option =>
+            {
+                option.DefaultAuthenticateScheme = "Bearer";
+                option.DefaultScheme = "Bearer";
+                option.DefaultChallengeScheme = "Bearer";
+            }).AddJwtBearer(cfg =>
+            {
+                cfg.RequireHttpsMetadata = false;
+                cfg.SaveToken = true;
+                cfg.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidIssuer = authenticationSettings.JwtIssuer,
+                    ValidAudience = authenticationSettings.JwtIssuer,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authenticationSettings.JwtKey)),
+                };
+            });
+
             services.AddScoped<ErrorHandlingMiddleware>();
             services.AddDbContext<iMedical_angContext>();
             services.AddControllers().AddFluentValidation();
@@ -67,10 +67,8 @@ namespace iMedicalAPI
             services.AddScoped<IJobTypeService, JobTypeService>();
             services.AddScoped<IPriceListService, PriceListService>();
             services.AddScoped<IAccountService, AccountService>();
-            services.AddScoped<IEmployeeService, EmployeeService>();
             services.AddScoped<IPatientService, PatientService>();
-            services.AddScoped<IPasswordHasher<Patient>, PasswordHasher<Patient>>();
-            services.AddScoped<IPasswordHasher<Employee>, PasswordHasher<Employee>>();
+            services.AddScoped<IPasswordHasher<UserAccount>, PasswordHasher<UserAccount>>();
             services.AddScoped<IValidator<RegisterPatientDto>, RegisterUserDtoValidator>();
             services.AddSwaggerGen();
 

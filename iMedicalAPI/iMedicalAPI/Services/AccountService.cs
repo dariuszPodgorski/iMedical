@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using iMedicalAPI.Models;
+using iMedical.Models;
 using Microsoft.AspNetCore.Identity;
 using iMedicalAPI.Exceptions;
 using System.Security.Claims;
@@ -22,10 +23,10 @@ namespace iMedicalAPI.Services
     public class AccountService : IAccountService
     {
         private readonly iMedical_angContext _context;
-        private readonly IPasswordHasher<Patient> _passwordHasher;
+        private readonly IPasswordHasher<UserAccount> _passwordHasher;
         private readonly AuthenticationSettings _authenticationSettings;
 
-        public AccountService(iMedical_angContext context, IPasswordHasher<Patient> passwordHasher, AuthenticationSettings authenticationSettings )
+        public AccountService(iMedical_angContext context, IPasswordHasher<UserAccount> passwordHasher, AuthenticationSettings authenticationSettings )
         {
             _context = context;
             _passwordHasher = passwordHasher;
@@ -35,7 +36,7 @@ namespace iMedicalAPI.Services
         public void RegisterPatient(RegisterPatientDto dto)
         {
            
-            var newPatient = new Patient()
+            var newPatient = new UserAccount()
             {
                 FirstName = dto.FirstName,
                 MiddleName = dto.MiddleName,
@@ -56,7 +57,6 @@ namespace iMedicalAPI.Services
                 StreetResidence = dto.StreetResidence,
                 BuildingNumberResidence = dto.BuildingNumberResidence,
                 HouseNumberResidence = dto.HouseNumberResidence,
-                InsuranceNumber = dto.InsuranceNumber,
                 Login = dto.Login,
                 IdRole = dto.IdRole
             };
@@ -64,7 +64,7 @@ namespace iMedicalAPI.Services
             var hashedPassword = _passwordHasher.HashPassword(newPatient, dto.Password);
             
             newPatient.Password = hashedPassword;
-            _context.Patients.Add(newPatient);
+            _context.UserAccounts.Add(newPatient);
             _context.SaveChanges();
         }
 
@@ -73,7 +73,7 @@ namespace iMedicalAPI.Services
 
         public string GenerateJwt(LoginDto dto)
         {
-            var user = _context.Patients
+            var user = _context.UserAccounts
                 .Include(u => u.IdRoleNavigation)
                 .FirstOrDefault(u => u.Login == dto.Login);
                 
@@ -90,7 +90,7 @@ namespace iMedicalAPI.Services
 
             var claims = new List<Claim>()
             {
-                new Claim(ClaimTypes.NameIdentifier, user.IdPatient.ToString()),
+                new Claim(ClaimTypes.NameIdentifier, user.IdUser.ToString()),
                 new Claim(ClaimTypes.Name, $"{user.FirstName} {user.LastName}"),
                 new Claim(ClaimTypes.Role, $"{user.IdRoleNavigation.Name}"),
              

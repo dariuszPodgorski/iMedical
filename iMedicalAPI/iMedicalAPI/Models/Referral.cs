@@ -13,7 +13,7 @@ namespace iMedicalAPI.Models
         }
 
         public int IdReferral { get; set; }
-        public int? IdPatient { get; set; }
+        public int? IdUser { get; set; }
         public int? IdMedicalExaminationType { get; set; }
         public int? IdDoctor { get; set; }
         public string ReferralNumber { get; set; }
@@ -22,7 +22,7 @@ namespace iMedicalAPI.Models
 
         public virtual Doctor IdDoctorNavigation { get; set; }
         public virtual MedicalExaminationType IdMedicalExaminationTypeNavigation { get; set; }
-        public virtual Patient IdPatientNavigation { get; set; }
+        public virtual UserAccount IdUserNavigation { get; set; }
         public virtual ICollection<MedicalExamination> MedicalExaminations { get; set; }
     }
 }

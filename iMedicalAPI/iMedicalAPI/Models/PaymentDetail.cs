@@ -9,9 +9,9 @@ namespace iMedicalAPI.Models
     {
         public int IdPaymentDetails { get; set; }
         public int? IdContract { get; set; }
+        public int? IdUser { get; set; }
         public int? IdBillingTenure { get; set; }
         public int? IdTenure { get; set; }
-        public int? IdEmployee { get; set; }
         public DateTime PaymentDate { get; set; }
         public DateTime PaymentDueDate { get; set; }
         public int Total { get; set; }
@@ -20,7 +20,7 @@ namespace iMedicalAPI.Models
 
         public virtual BillingTenure IdBillingTenureNavigation { get; set; }
         public virtual Contract IdContractNavigation { get; set; }
-        public virtual Employee IdEmployeeNavigation { get; set; }
         public virtual Tenure IdTenureNavigation { get; set; }
+        public virtual UserAccount IdUserNavigation { get; set; }
     }
 }

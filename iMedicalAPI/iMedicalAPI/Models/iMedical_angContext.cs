@@ -23,14 +23,13 @@ namespace iMedicalAPI.Models
         public virtual DbSet<ContractType> ContractTypes { get; set; }
         public virtual DbSet<Doctor> Doctors { get; set; }
         public virtual DbSet<DoctorSpecialization> DoctorSpecializations { get; set; }
-        public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<JobType> JobTypes { get; set; }
         public virtual DbSet<MedicBranchType> MedicBranchTypes { get; set; }
         public virtual DbSet<MedicalExamination> MedicalExaminations { get; set; }
         public virtual DbSet<MedicalExaminationType> MedicalExaminationTypes { get; set; }
         public virtual DbSet<MedicalFacility> MedicalFacilities { get; set; }
         public virtual DbSet<Paramedical> Paramedicals { get; set; }
-        public virtual DbSet<Patient> Patients { get; set; }
+        public virtual DbSet<Patinet> Patinets { get; set; }
         public virtual DbSet<PaymentDetail> PaymentDetails { get; set; }
         public virtual DbSet<Prescription> Prescriptions { get; set; }
         public virtual DbSet<PriceList> PriceLists { get; set; }
@@ -40,6 +39,7 @@ namespace iMedicalAPI.Models
         public virtual DbSet<Tenure> Tenures { get; set; }
         public virtual DbSet<TenureType> TenureTypes { get; set; }
         public virtual DbSet<TitleType> TitleTypes { get; set; }
+        public virtual DbSet<UserAccount> UserAccounts { get; set; }
         public virtual DbSet<Visit> Visits { get; set; }
         public virtual DbSet<VisitType> VisitTypes { get; set; }
 
@@ -47,7 +47,7 @@ namespace iMedicalAPI.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
                 optionsBuilder.UseSqlServer("Server=DESKTOP-0DVVGHT\\SQLExpress;Database=iMedical_ang;Trusted_Connection=True;");
             }
         }
@@ -77,9 +77,9 @@ namespace iMedicalAPI.Models
 
                 entity.ToTable("Billing_tenure");
 
-                entity.HasIndex(e => e.IdEmployee, "Relationship_15_FK");
-
                 entity.HasIndex(e => e.IdTenure, "Relationship_16_FK");
+
+                entity.HasIndex(e => e.IdUser, "Relationship_41_FK");
 
                 entity.Property(e => e.IdBillingTenure).HasColumnName("ID_Billing_tenure");
 
@@ -99,9 +99,9 @@ namespace iMedicalAPI.Models
 
                 entity.Property(e => e.HoursNumber).HasColumnName("Hours_number");
 
-                entity.Property(e => e.IdEmployee).HasColumnName("ID_Employee");
-
                 entity.Property(e => e.IdTenure).HasColumnName("ID_Tenure");
+
+                entity.Property(e => e.IdUser).HasColumnName("ID_User");
 
                 entity.Property(e => e.InsertionDate)
                     .HasColumnType("datetime")
@@ -115,15 +115,15 @@ namespace iMedicalAPI.Models
 
                 entity.Property(e => e.VisitsReimbursed).HasColumnName("visits_reimbursed");
 
-                entity.HasOne(d => d.IdEmployeeNavigation)
-                    .WithMany(p => p.BillingTenures)
-                    .HasForeignKey(d => d.IdEmployee)
-                    .HasConstraintName("FK_BILLING__RELATIONS_EMPLOYEE");
-
                 entity.HasOne(d => d.IdTenureNavigation)
                     .WithMany(p => p.BillingTenures)
                     .HasForeignKey(d => d.IdTenure)
                     .HasConstraintName("FK_BILLING__RELATIONS_TENURE");
+
+                entity.HasOne(d => d.IdUserNavigation)
+                    .WithMany(p => p.BillingTenures)
+                    .HasForeignKey(d => d.IdUser)
+                    .HasConstraintName("FK_BILLING__RELATIONS_USERACCO");
             });
 
             modelBuilder.Entity<Contract>(entity =>
@@ -266,82 +266,6 @@ namespace iMedicalAPI.Models
                     .HasConstraintName("FK_DOCTORSP_RELATIONS_SPECIALI");
             });
 
-            modelBuilder.Entity<Employee>(entity =>
-            {
-                entity.HasKey(e => e.IdEmployee)
-                    .HasName("PK_EMPLOYEE");
-
-                entity.ToTable("Employee");
-
-                entity.HasIndex(e => e.IdRole, "Relationship_36_FK");
-
-                entity.Property(e => e.IdEmployee).HasColumnName("ID_Employee");
-
-                entity.Property(e => e.BuildingNumberResidence)
-                    .IsRequired()
-                    .HasMaxLength(11);
-
-                entity.Property(e => e.CityResidence)
-                    .IsRequired()
-                    .HasMaxLength(64);
-
-                entity.Property(e => e.CountryResidence)
-                    .IsRequired()
-                    .HasMaxLength(32);
-
-                entity.Property(e => e.DateOfBirth).HasColumnType("datetime");
-
-                entity.Property(e => e.Email).HasMaxLength(128);
-
-                entity.Property(e => e.FirstName)
-                    .IsRequired()
-                    .HasMaxLength(32);
-
-                entity.Property(e => e.Gender)
-                    .IsRequired()
-                    .HasMaxLength(1);
-
-                entity.Property(e => e.HousingNumberResidence).HasMaxLength(11);
-
-                entity.Property(e => e.IdRole).HasColumnName("Id_Role");
-
-                entity.Property(e => e.LastName)
-                    .IsRequired()
-                    .HasMaxLength(64);
-
-                entity.Property(e => e.Login)
-                    .IsRequired()
-                    .HasMaxLength(50);
-
-                entity.Property(e => e.MiddleName).HasMaxLength(32);
-
-                entity.Property(e => e.Password)
-                    .IsRequired()
-                    .HasMaxLength(512);
-
-                entity.Property(e => e.Pesel)
-                    .IsRequired()
-                    .HasMaxLength(16)
-                    .HasColumnName("PESEL");
-
-                entity.Property(e => e.Phone)
-                    .IsRequired()
-                    .HasMaxLength(16);
-
-                entity.Property(e => e.PostalCodeResidence)
-                    .IsRequired()
-                    .HasMaxLength(6);
-
-                entity.Property(e => e.StreetResidence)
-                    .IsRequired()
-                    .HasMaxLength(256);
-
-                entity.HasOne(d => d.IdRoleNavigation)
-                    .WithMany(p => p.Employees)
-                    .HasForeignKey(d => d.IdRole)
-                    .HasConstraintName("FK_EMPLOYEE_RELATIONS_ROLE");
-            });
-
             modelBuilder.Entity<JobType>(entity =>
             {
                 entity.HasKey(e => e.IdJobType)
@@ -384,7 +308,7 @@ namespace iMedicalAPI.Models
 
                 entity.HasIndex(e => e.IdReferral, "Relationship_34_FK");
 
-                entity.HasIndex(e => e.IdPatient, "Relationship_35_FK");
+                entity.HasIndex(e => e.IdUser, "Relationship_35_FK");
 
                 entity.Property(e => e.IdMedicalExamination).HasColumnName("ID_Medical_examination");
 
@@ -392,11 +316,11 @@ namespace iMedicalAPI.Models
 
                 entity.Property(e => e.IdMedicalExaminationType).HasColumnName("ID_medical_examination_type");
 
-                entity.Property(e => e.IdPatient).HasColumnName("ID_Patient");
-
                 entity.Property(e => e.IdPriceList).HasColumnName("ID_Price_list");
 
                 entity.Property(e => e.IdReferral).HasColumnName("ID_Referral");
+
+                entity.Property(e => e.IdUser).HasColumnName("ID_User");
 
                 entity.Property(e => e.IssueDate).HasColumnType("datetime");
 
@@ -409,11 +333,6 @@ namespace iMedicalAPI.Models
                     .HasForeignKey(d => d.IdMedicalExaminationType)
                     .HasConstraintName("FK_MEDICAL__RELATIONS_MEDICAL_");
 
-                entity.HasOne(d => d.IdPatientNavigation)
-                    .WithMany(p => p.MedicalExaminations)
-                    .HasForeignKey(d => d.IdPatient)
-                    .HasConstraintName("FK_MEDICAL__RELATIONS_PATIENT");
-
                 entity.HasOne(d => d.IdPriceListNavigation)
                     .WithMany(p => p.MedicalExaminations)
                     .HasForeignKey(d => d.IdPriceList)
@@ -423,6 +342,11 @@ namespace iMedicalAPI.Models
                     .WithMany(p => p.MedicalExaminations)
                     .HasForeignKey(d => d.IdReferral)
                     .HasConstraintName("FK_MEDICAL__RELATIONS_REFERRAL");
+
+                entity.HasOne(d => d.IdUserNavigation)
+                    .WithMany(p => p.MedicalExaminations)
+                    .HasForeignKey(d => d.IdUser)
+                    .HasConstraintName("FK_MEDICAL__RELATIONS_USERACCO");
             });
 
             modelBuilder.Entity<MedicalExaminationType>(entity =>
@@ -517,94 +441,27 @@ namespace iMedicalAPI.Models
                     .HasConstraintName("FK_PARAMEDI_RELATIONS_TITLE_TY");
             });
 
-            modelBuilder.Entity<Patient>(entity =>
+            modelBuilder.Entity<Patinet>(entity =>
             {
                 entity.HasKey(e => e.IdPatient)
-                    .HasName("PK_PATIENT");
+                    .HasName("PK_PATINET");
 
-                entity.ToTable("Patient");
+                entity.ToTable("Patinet");
 
-                entity.HasIndex(e => e.IdRole, "Relationship_38_FK");
+                entity.HasIndex(e => e.IdUser, "Relationship_36_FK");
 
-                entity.Property(e => e.IdPatient).HasColumnName("ID_Patient");
+                entity.Property(e => e.IdPatient)
+                    .ValueGeneratedNever()
+                    .HasColumnName("ID_Patient");
 
-                entity.Property(e => e.BuildingNumberRegistration)
-                    .IsRequired()
-                    .HasMaxLength(11);
+                entity.Property(e => e.IdUser).HasColumnName("ID_User");
 
-                entity.Property(e => e.BuildingNumberResidence).HasMaxLength(11);
+                entity.Property(e => e.InsuranceNumber).HasMaxLength(16);
 
-                entity.Property(e => e.CityRegistration)
-                    .IsRequired()
-                    .HasMaxLength(64);
-
-                entity.Property(e => e.CityResidence).HasMaxLength(64);
-
-                entity.Property(e => e.CountryRegistration)
-                    .IsRequired()
-                    .HasMaxLength(32);
-
-                entity.Property(e => e.CountryResidence).HasMaxLength(32);
-
-                entity.Property(e => e.DateOfBirth).HasColumnType("datetime");
-
-                entity.Property(e => e.Email).HasMaxLength(128);
-
-                entity.Property(e => e.FirstName)
-                    .IsRequired()
-                    .HasMaxLength(32);
-
-                entity.Property(e => e.Gender)
-                    .IsRequired()
-                    .HasMaxLength(1);
-
-                entity.Property(e => e.HouseNumberResidence).HasMaxLength(11);
-
-                entity.Property(e => e.HousingNumberRegistration).HasMaxLength(11);
-
-                entity.Property(e => e.IdRole).HasColumnName("Id_Role");
-
-                entity.Property(e => e.InsuranceNumber).HasMaxLength(15);
-
-                entity.Property(e => e.LastName)
-                    .IsRequired()
-                    .HasMaxLength(64);
-
-                entity.Property(e => e.Login)
-                    .IsRequired()
-                    .HasMaxLength(50);
-
-                entity.Property(e => e.MiddleName).HasMaxLength(32);
-
-                entity.Property(e => e.Password)
-                    .IsRequired()
-                    .HasMaxLength(512);
-
-                entity.Property(e => e.Pesel)
-                    .IsRequired()
-                    .HasMaxLength(16)
-                    .HasColumnName("PESEL");
-
-                entity.Property(e => e.Phone)
-                    .IsRequired()
-                    .HasMaxLength(16);
-
-                entity.Property(e => e.PostalCodeRegistration)
-                    .IsRequired()
-                    .HasMaxLength(6);
-
-                entity.Property(e => e.PostalCodeResidence).HasMaxLength(6);
-
-                entity.Property(e => e.StreetRegistration)
-                    .IsRequired()
-                    .HasMaxLength(64);
-
-                entity.Property(e => e.StreetResidence).HasMaxLength(64);
-
-                entity.HasOne(d => d.IdRoleNavigation)
-                    .WithMany(p => p.Patients)
-                    .HasForeignKey(d => d.IdRole)
-                    .HasConstraintName("FK_PATIENT_RELATIONS_ROLE");
+                entity.HasOne(d => d.IdUserNavigation)
+                    .WithMany(p => p.Patinets)
+                    .HasForeignKey(d => d.IdUser)
+                    .HasConstraintName("FK_PATINET_RELATIONS_USERACCO");
             });
 
             modelBuilder.Entity<PaymentDetail>(entity =>
@@ -614,13 +471,13 @@ namespace iMedicalAPI.Models
 
                 entity.ToTable("Payment_Details");
 
-                entity.HasIndex(e => e.IdEmployee, "Relationship_17_FK");
-
                 entity.HasIndex(e => e.IdTenure, "Relationship_18_FK");
 
                 entity.HasIndex(e => e.IdBillingTenure, "Relationship_19_FK");
 
                 entity.HasIndex(e => e.IdContract, "Relationship_20_FK");
+
+                entity.HasIndex(e => e.IdUser, "Relationship_40_FK");
 
                 entity.Property(e => e.IdPaymentDetails).HasColumnName("ID_Payment_Details");
 
@@ -630,9 +487,9 @@ namespace iMedicalAPI.Models
 
                 entity.Property(e => e.IdContract).HasColumnName("ID_Contract");
 
-                entity.Property(e => e.IdEmployee).HasColumnName("ID_Employee");
-
                 entity.Property(e => e.IdTenure).HasColumnName("ID_Tenure");
+
+                entity.Property(e => e.IdUser).HasColumnName("ID_User");
 
                 entity.Property(e => e.PaymentDate)
                     .HasColumnType("datetime")
@@ -656,15 +513,15 @@ namespace iMedicalAPI.Models
                     .HasForeignKey(d => d.IdContract)
                     .HasConstraintName("FK_PAYMENT__RELATIONS_CONTRACT");
 
-                entity.HasOne(d => d.IdEmployeeNavigation)
-                    .WithMany(p => p.PaymentDetails)
-                    .HasForeignKey(d => d.IdEmployee)
-                    .HasConstraintName("FK_PAYMENT__RELATIONS_EMPLOYEE");
-
                 entity.HasOne(d => d.IdTenureNavigation)
                     .WithMany(p => p.PaymentDetails)
                     .HasForeignKey(d => d.IdTenure)
                     .HasConstraintName("FK_PAYMENT__RELATIONS_TENURE");
+
+                entity.HasOne(d => d.IdUserNavigation)
+                    .WithMany(p => p.PaymentDetails)
+                    .HasForeignKey(d => d.IdUser)
+                    .HasConstraintName("FK_PAYMENT__RELATIONS_USERACCO");
             });
 
             modelBuilder.Entity<Prescription>(entity =>
@@ -741,7 +598,7 @@ namespace iMedicalAPI.Models
 
                 entity.HasIndex(e => e.IdDoctor, "Relationship_30_FK");
 
-                entity.HasIndex(e => e.IdPatient, "Relationship_31_FK");
+                entity.HasIndex(e => e.IdUser, "Relationship_31_FK");
 
                 entity.Property(e => e.IdReferral).HasColumnName("ID_Referral");
 
@@ -753,7 +610,7 @@ namespace iMedicalAPI.Models
 
                 entity.Property(e => e.IdMedicalExaminationType).HasColumnName("ID_medical_examination_type");
 
-                entity.Property(e => e.IdPatient).HasColumnName("ID_Patient");
+                entity.Property(e => e.IdUser).HasColumnName("ID_User");
 
                 entity.Property(e => e.IssueDate)
                     .HasColumnType("datetime")
@@ -774,10 +631,10 @@ namespace iMedicalAPI.Models
                     .HasForeignKey(d => d.IdMedicalExaminationType)
                     .HasConstraintName("FK_REFERRAL_RELATIONS_MEDICAL_");
 
-                entity.HasOne(d => d.IdPatientNavigation)
+                entity.HasOne(d => d.IdUserNavigation)
                     .WithMany(p => p.Referrals)
-                    .HasForeignKey(d => d.IdPatient)
-                    .HasConstraintName("FK_REFERRAL_RELATIONS_PATIENT");
+                    .HasForeignKey(d => d.IdUser)
+                    .HasConstraintName("FK_REFERRAL_RELATIONS_USERACCO");
             });
 
             modelBuilder.Entity<Role>(entity =>
@@ -817,6 +674,8 @@ namespace iMedicalAPI.Models
 
                 entity.HasIndex(e => e.IdJobType, "Relationship_37_FK");
 
+                entity.HasIndex(e => e.IdUser, "Relationship_39_FK");
+
                 entity.HasIndex(e => e.IdTenureType, "Relationship_3_FK");
 
                 entity.HasIndex(e => e.IdParamedical, "Relationship_4_FK");
@@ -824,8 +683,6 @@ namespace iMedicalAPI.Models
                 entity.HasIndex(e => e.IdDoctor, "Relationship_5_FK");
 
                 entity.HasIndex(e => e.IdAdministration, "Relationship_6_FK");
-
-                entity.HasIndex(e => e.IdEmployee, "Relationship_7_FK");
 
                 entity.Property(e => e.IdTenure).HasColumnName("ID_Tenure");
 
@@ -837,13 +694,13 @@ namespace iMedicalAPI.Models
 
                 entity.Property(e => e.IdDoctor).HasColumnName("ID_Doctor");
 
-                entity.Property(e => e.IdEmployee).HasColumnName("ID_Employee");
-
                 entity.Property(e => e.IdJobType).HasColumnName("ID_Job_Type");
 
                 entity.Property(e => e.IdParamedical).HasColumnName("ID_Paramedical");
 
                 entity.Property(e => e.IdTenureType).HasColumnName("ID_Tenure_type");
+
+                entity.Property(e => e.IdUser).HasColumnName("ID_User");
 
                 entity.Property(e => e.Phone).HasMaxLength(16);
 
@@ -856,11 +713,6 @@ namespace iMedicalAPI.Models
                     .WithMany(p => p.Tenures)
                     .HasForeignKey(d => d.IdDoctor)
                     .HasConstraintName("FK_TENURE_RELATIONS_DOCTOR");
-
-                entity.HasOne(d => d.IdEmployeeNavigation)
-                    .WithMany(p => p.Tenures)
-                    .HasForeignKey(d => d.IdEmployee)
-                    .HasConstraintName("FK_TENURE_RELATIONS_EMPLOYEE");
 
                 entity.HasOne(d => d.IdJobTypeNavigation)
                     .WithMany(p => p.Tenures)
@@ -876,6 +728,11 @@ namespace iMedicalAPI.Models
                     .WithMany(p => p.Tenures)
                     .HasForeignKey(d => d.IdTenureType)
                     .HasConstraintName("FK_TENURE_RELATIONS_TENURE_T");
+
+                entity.HasOne(d => d.IdUserNavigation)
+                    .WithMany(p => p.Tenures)
+                    .HasForeignKey(d => d.IdUser)
+                    .HasConstraintName("FK_TENURE_RELATIONS_USERACCO");
             });
 
             modelBuilder.Entity<TenureType>(entity =>
@@ -908,6 +765,94 @@ namespace iMedicalAPI.Models
                     .HasMaxLength(256);
             });
 
+            modelBuilder.Entity<UserAccount>(entity =>
+            {
+                entity.HasKey(e => e.IdUser)
+                    .HasName("PK_USERACCOUNT");
+
+                entity.ToTable("UserAccount");
+
+                entity.HasIndex(e => e.IdRole, "Relationship_38_FK");
+
+                entity.Property(e => e.IdUser).HasColumnName("ID_User");
+
+                entity.Property(e => e.BuildingNumberRegistration)
+                    .IsRequired()
+                    .HasMaxLength(11);
+
+                entity.Property(e => e.BuildingNumberResidence).HasMaxLength(11);
+
+                entity.Property(e => e.CityRegistration)
+                    .IsRequired()
+                    .HasMaxLength(64);
+
+                entity.Property(e => e.CityResidence).HasMaxLength(64);
+
+                entity.Property(e => e.CountryRegistration)
+                    .IsRequired()
+                    .HasMaxLength(32);
+
+                entity.Property(e => e.CountryResidence).HasMaxLength(32);
+
+                entity.Property(e => e.DateOfBirth).HasColumnType("datetime");
+
+                entity.Property(e => e.Email).HasMaxLength(128);
+
+                entity.Property(e => e.FirstName)
+                    .IsRequired()
+                    .HasMaxLength(32);
+
+                entity.Property(e => e.Gender)
+                    .IsRequired()
+                    .HasMaxLength(1);
+
+                entity.Property(e => e.HouseNumberResidence).HasMaxLength(11);
+
+                entity.Property(e => e.HousingNumberRegistration).HasMaxLength(11);
+
+                entity.Property(e => e.IdRole).HasColumnName("Id_Role");
+
+                entity.Property(e => e.LastName)
+                    .IsRequired()
+                    .HasMaxLength(64);
+
+                entity.Property(e => e.Login)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.MiddleName).HasMaxLength(32);
+
+                entity.Property(e => e.Password)
+                    .IsRequired()
+                    .HasMaxLength(512);
+
+                entity.Property(e => e.Pesel)
+                    .IsRequired()
+                    .HasMaxLength(16)
+                    .HasColumnName("PESEL");
+
+                entity.Property(e => e.Phone)
+                    .IsRequired()
+                    .HasMaxLength(16);
+
+                entity.Property(e => e.PostalCodeRegistration)
+                    .IsRequired()
+                    .HasMaxLength(6);
+
+                entity.Property(e => e.PostalCodeResidence).HasMaxLength(6);
+
+                entity.Property(e => e.StreetRegistration)
+                    .IsRequired()
+                    .HasMaxLength(64);
+
+                entity.Property(e => e.StreetResidence).HasMaxLength(64);
+
+                entity.HasOne(d => d.IdRoleNavigation)
+                    .WithMany(p => p.UserAccounts)
+                    .HasForeignKey(d => d.IdRole)
+                    .HasConstraintName("FK_USERACCO_RELATIONS_ROLE");
+            });
+
             modelBuilder.Entity<Visit>(entity =>
             {
                 entity.HasKey(e => e.IdVisit)
@@ -917,7 +862,7 @@ namespace iMedicalAPI.Models
 
                 entity.HasIndex(e => e.IdDoctor, "Relationship_22_FK");
 
-                entity.HasIndex(e => e.IdPatient, "Relationship_23_FK");
+                entity.HasIndex(e => e.IdUser, "Relationship_23_FK");
 
                 entity.HasIndex(e => e.IdPriceList, "Relationship_24_FK");
 
@@ -953,11 +898,11 @@ namespace iMedicalAPI.Models
 
                 entity.Property(e => e.IdMedicalFacility).HasColumnName("ID_Medical_Facility");
 
-                entity.Property(e => e.IdPatient).HasColumnName("ID_Patient");
-
                 entity.Property(e => e.IdPrescription).HasColumnName("ID_Prescription");
 
                 entity.Property(e => e.IdPriceList).HasColumnName("ID_Price_list");
+
+                entity.Property(e => e.IdUser).HasColumnName("ID_User");
 
                 entity.Property(e => e.IdVisitType).HasColumnName("ID_Visit_type");
 
@@ -979,11 +924,6 @@ namespace iMedicalAPI.Models
                     .HasForeignKey(d => d.IdMedicalFacility)
                     .HasConstraintName("FK_VISIT_RELATIONS_MEDICAL_");
 
-                entity.HasOne(d => d.IdPatientNavigation)
-                    .WithMany(p => p.Visits)
-                    .HasForeignKey(d => d.IdPatient)
-                    .HasConstraintName("FK_VISIT_RELATIONS_PATIENT");
-
                 entity.HasOne(d => d.IdPrescriptionNavigation)
                     .WithMany(p => p.Visits)
                     .HasForeignKey(d => d.IdPrescription)
@@ -993,6 +933,11 @@ namespace iMedicalAPI.Models
                     .WithMany(p => p.Visits)
                     .HasForeignKey(d => d.IdPriceList)
                     .HasConstraintName("FK_VISIT_RELATIONS_PRICE_LI");
+
+                entity.HasOne(d => d.IdUserNavigation)
+                    .WithMany(p => p.Visits)
+                    .HasForeignKey(d => d.IdUser)
+                    .HasConstraintName("FK_VISIT_RELATIONS_USERACCO");
 
                 entity.HasOne(d => d.IdVisitTypeNavigation)
                     .WithMany(p => p.Visits)

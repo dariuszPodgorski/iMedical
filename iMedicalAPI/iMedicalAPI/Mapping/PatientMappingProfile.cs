@@ -12,9 +12,9 @@ namespace iMedicalAPI.Mapping
     {
         public PatientMappingProfile()
         {
-            CreateMap<Patient, PatientDto>();
+            CreateMap<UserAccount, PatientDto>();
 
-            CreateMap<PatientDto, Patient>();
+            CreateMap<PatientDto, UserAccount>();
         }
     }
 }
