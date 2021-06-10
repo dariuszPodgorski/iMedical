@@ -16,7 +16,7 @@ namespace iMedicalApi.Mapping
         {
 
             CreateMap<PriceList, PriceListDto>();
-            CreateMap<PriceListDto, PriceList>();
+            CreateMap<CreatePriceListDto, PriceList>();
         }
 
     }

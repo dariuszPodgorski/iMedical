@@ -67,9 +67,9 @@ namespace iMedicalAPI
             services.AddScoped<IJobTypeService, JobTypeService>();
             services.AddScoped<IPriceListService, PriceListService>();
             services.AddScoped<IAccountService, AccountService>();
-            services.AddScoped<IPatientService, PatientService>();
+            services.AddScoped<IUserService, UserService>();
             services.AddScoped<IPasswordHasher<UserAccount>, PasswordHasher<UserAccount>>();
-            services.AddScoped<IValidator<RegisterPatientDto>, RegisterUserDtoValidator>();
+            services.AddScoped<IValidator<RegisterUserDto>, RegisterUserDtoValidator>();
             services.AddSwaggerGen();
 
         }

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 namespace iMedical.Controllers
 {
     [Route("api/priceList")]
+    [Authorize(Roles = "Administracja,Admin")]
     public class PriceListController : ControllerBase
     {
         private readonly IPriceListService _priceListService;

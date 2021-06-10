@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace iMedicalAPI.Models.Validators
 {
-    public class RegisterUserDtoValidator : AbstractValidator<RegisterPatientDto>
+    public class RegisterUserDtoValidator : AbstractValidator<RegisterUserDto>
     {
         public RegisterUserDtoValidator(iMedical_angContext dbContext)
         {

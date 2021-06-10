@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace iMedicalAPI.Models.RegisterUserModels
 {
-    public class RegisterPatientDto
+    public class RegisterUserDto
     {
         public int? IdRole { get; set; } = 1;
        

@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace iMedicalAPI.Mapping
 {
-    public class PatientMappingProfile : Profile
+    public class UserMappingProfile : Profile
     {
-        public PatientMappingProfile()
+        public UserMappingProfile()
         {
-            CreateMap<UserAccount, PatientDto>();
+            CreateMap<UserAccount, UserDto>();
 
-            CreateMap<PatientDto, UserAccount>();
+            CreateMap<UserDto, UserAccount>();
         }
     }
 }

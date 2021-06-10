@@ -8,47 +8,47 @@ using System.Threading.Tasks;
 
 namespace iMedicalAPI.Services
 {
-    public interface IPatientService
+    public interface IUserService
     {
-        IEnumerable<PatientDto> GetAll();
-        PatientDto GetById(int id);
+        IEnumerable<UserDto> GetAll();
+        UserDto GetById(int id);
     }
 
-    public class PatientService : IPatientService
+    public class UserService : IUserService
     {
         private readonly iMedical_angContext _dbContext;
         private readonly IMapper _mapper;
 
-        public PatientService(iMedical_angContext dbContext, IMapper mapper)
+        public UserService(iMedical_angContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
             _mapper = mapper;
         }
 
-        public PatientDto GetById(int id)
+        public UserDto GetById(int id)
         {
-            var patient = _dbContext
+            var user = _dbContext
                .UserAccounts
                .FirstOrDefault(r => r.IdUser == id);
 
-            if (patient is null)
+            if (user is null)
             {
                 return null;
             }
 
-            var result = _mapper.Map<PatientDto>(patient);
+            var result = _mapper.Map<UserDto>(user);
             return result;
         }
 
-        public IEnumerable<PatientDto> GetAll()
+        public IEnumerable<UserDto> GetAll()
         {
-            var patient = _dbContext
+            var user = _dbContext
                 .UserAccounts
                 .ToList();
 
-            var patientsDtos = _mapper.Map<List<PatientDto>>(patient);
+            var usersDtos = _mapper.Map<List<UserDto>>(user);
 
-            return patientsDtos;
+            return usersDtos;
         }
 
     }

@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace iMedicalAPI.Models.PatientModels
 {
-    public class PatientDto
+    public class UserDto
     {
-        public int IdPatient { get; set; }
+        public int IdUser { get; set; }
         public int? IdRole { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }

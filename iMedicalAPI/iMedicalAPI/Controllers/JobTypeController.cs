@@ -1,6 +1,7 @@
 ﻿using iMedical.Models.JobTypeModels;
 using iMedicalApi.Models;
 using iMedicalApi.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 namespace iMedicalApi.Controllers
 {
     [Route("api/jobType")]
+    [Authorize(Roles = "Administracja,Admin")]
     public class JobTypeController : ControllerBase
     {
         private readonly IJobTypeService _jobTypeService;

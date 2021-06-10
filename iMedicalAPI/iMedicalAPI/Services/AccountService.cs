@@ -16,7 +16,7 @@ namespace iMedicalAPI.Services
 {
     public interface IAccountService
     {
-        void RegisterPatient(RegisterPatientDto dto);
+        void RegisterPatient(RegisterUserDto dto);
         string GenerateJwt(LoginDto dto);
     }
 
@@ -33,7 +33,7 @@ namespace iMedicalAPI.Services
             _authenticationSettings = authenticationSettings;
 
         }
-        public void RegisterPatient(RegisterPatientDto dto)
+        public void RegisterPatient(RegisterUserDto dto)
         {
            
             var newPatient = new UserAccount()
