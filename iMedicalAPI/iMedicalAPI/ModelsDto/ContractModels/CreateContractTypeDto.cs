@@ -11,7 +11,7 @@ namespace iMedicalApi.Models
         public int IdContractType { get; set; }
         
         [Required]
-        [MaxLength(64)]
+        [MaxLength(256)]
         public string Name { get; set; }
     }
 }

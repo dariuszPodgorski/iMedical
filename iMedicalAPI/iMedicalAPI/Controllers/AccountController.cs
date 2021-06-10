@@ -18,7 +18,7 @@ namespace iMedicalAPI.Controllers
         {
             _accountService = accountService;
         }
-        [HttpPost("registerPatient")]
+        [HttpPost("register")]
        public ActionResult RegisterPatient([FromBody] RegisterPatientDto dto)
         {
             _accountService.RegisterPatient(dto);

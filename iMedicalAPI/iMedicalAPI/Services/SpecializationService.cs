@@ -12,7 +12,7 @@ namespace iMedicalApi.Services
 {
     public interface ISpecializationService
     {
-        int Create(CreateSpecializationDto dto);
+        int Create(CreateContracTypeDto dto);
         IEnumerable<SpecializationDto> GetAll();
         SpecializationDto GetById(int id);
         void Delete(int id);
@@ -55,7 +55,7 @@ namespace iMedicalApi.Services
             return specializationsDtos;
         }
 
-        public int Create(CreateSpecializationDto dto)
+        public int Create(CreateContracTypeDto dto)
         {
             var specialization = _mapper.Map<Specialization>(dto);
             _dbContext.Specializations.Add(specialization);

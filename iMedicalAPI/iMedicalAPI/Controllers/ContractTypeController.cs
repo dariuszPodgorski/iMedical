@@ -44,16 +44,14 @@ namespace iMedicalApi.Controllers
         [HttpPost]
         public ActionResult CreateContractType([FromBody] CreateContractTypeDto dto)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+
 
             var id = _contractTypeService.Create(dto);
 
 
             return Created($"/api/contractType/{id}", null);
         }
+
 
         [HttpDelete("{id}")]
         public ActionResult Delete([FromRoute] int id)

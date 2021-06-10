@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace iMedicalApi.Models
 {
-    public class CreateSpecializationDto
+    public class CreateContracTypeDto
     {
 
         public int IdSpecialization { get; set; }

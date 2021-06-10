@@ -8,12 +8,13 @@ using AutoMapper;
 using iMedicalApi.Services;
 using iMedical.Models;
 using Microsoft.AspNetCore.Authorization;
+using iMedicalAPI.Models;
 
 namespace iMedicalApi.Controllers
 {
     [Route("api/specialization")]
     [ApiController]
-    /*[Authorize(Roles = "Administracja,Admin")] */
+    /* [Authorize(Roles = "Administracja,Admin")] */
 
     public class SpecializationController : ControllerBase
     {
@@ -46,7 +47,7 @@ namespace iMedicalApi.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateSpecialization([FromBody] CreateSpecializationDto dto)
+        public ActionResult CreateSpecialization([FromBody] CreateContracTypeDto dto)
         {
           
 

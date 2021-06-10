@@ -17,7 +17,7 @@ namespace iMedicalApi.Mapping
                 /*.ForMember(m => m.Name, c => c.MapFrom(s => s.Name)); */
 
 
-            CreateMap<CreateSpecializationDto, Specialization>();
+            CreateMap<CreateContracTypeDto, Specialization>();
                /* .ForMember(r => r.Name, c => c.MapFrom(dto => new Specialization() 
                 { Name = dto.Name })); */
         }
